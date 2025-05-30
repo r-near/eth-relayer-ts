@@ -165,7 +165,6 @@ export const LightClientStateSchema = b.struct({
 })
 export type LightClientState = b.infer<typeof LightClientStateSchema>
 
-
 // ============================================================================
 // INITIALIZATION TYPES
 // ============================================================================
