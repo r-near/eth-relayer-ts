@@ -1,22 +1,21 @@
 import { getTestnetRpcProvider, callViewMethod } from '@near-js/client';
-import { LightClientStateSchema, LightClientUpdateSchema, LightClientState } from './borsh.js';
+import { LightClientStateSchema } from './borsh.js';
 import { b } from '@zorsh/zorsh'
 import { H256 } from './borsh.js';
 
-enum ClientMode {
-    SubmitLightClientUpdate,
-    SubmitHeader
+export enum ClientMode {
+    SubmitLightClientUpdate = 0,
+    SubmitHeader = 1
 }
 const ClientModeSchema = b.nativeEnum(ClientMode)
 
 const ACCOUNT_ID = 'client-eth2.sepolia.testnet'
 
-class Contract {
+export class Contract {
     private async callContractView<T>(
         methodName: string,
         schema: { deserialize: (buffer: Buffer) => T },
-        postProcess?: (data: T) => any
-    ): Promise<T | any> {
+    ): Promise<T> {
         const data = await callViewMethod({
             account: ACCOUNT_ID,
             method: methodName,
@@ -24,25 +23,23 @@ class Contract {
             args: {}
         });
 
-        const result = schema.deserialize(Buffer.from(data.result));
-        return postProcess ? postProcess(result) : result;
+        return schema.deserialize(Buffer.from(data.result));
     }
 
 
     async getFinalizedBeaconBlockHash(): Promise<string> {
         const hash = await this.callContractView('finalized_beacon_block_root', H256);
-        return '0x' + Buffer.from(hash).toString('hex');
+        return `0x${Buffer.from(hash).toString('hex')}`;
     }
 
     async getFinalizedBeaconBlockSlot(): Promise<bigint> {
         return this.callContractView('finalized_beacon_block_slot', b.u64());
     }
 
-    async getClientMode(): Promise<string> {
+    async getClientMode(): Promise<ClientMode> {
         return this.callContractView(
             'get_client_mode',
             ClientModeSchema,
-            (mode) => ClientMode[mode]
         );
     }
 
@@ -60,10 +57,4 @@ class Contract {
 
 }
 
-const contract = new Contract()
-console.log('Client Mode:', await contract.getClientMode());
-console.log('Beacon Slot:', await contract.getFinalizedBeaconBlockSlot());
-console.log('Block Hash:', await contract.getFinalizedBeaconBlockHash());
-console.log('Light Client State:', await contract.getLightClientState());
-console.log('Last Block Number:', await contract.getLastBlockNumber());
-console.log('Unfinalized Tail:', await contract.getUnfinalizedTailBlockNumber());
+export default Contract
