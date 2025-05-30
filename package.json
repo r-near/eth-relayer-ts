@@ -8,7 +8,7 @@
     "build": "tsc",
     "start": "tsx src/main.ts",
     "test": "vitest",
-    "lint": "biome check --write .",
+    "lint": "biome check --organize-imports-enabled=true --write .",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "pnpm build"
   },
@@ -29,7 +29,9 @@
     "vitest": "^3.1.4"
   },
   "dependencies": {
+    "@chainsafe/persistent-merkle-tree": "^1.2.0",
     "@chainsafe/ssz": "^1.2.0",
+    "@lodestar/beacon-node": "^1.30.0",
     "@lodestar/params": "^1.30.0",
     "@near-js/client": "^2.0.1",
     "@zorsh/zorsh": "^0.3.3",
