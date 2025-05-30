@@ -18,6 +18,9 @@
   "packageManager": "pnpm@10.4.1",
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
+    "@lodestar/api": "^1.30.0",
+    "@lodestar/config": "^1.30.0",
+    "@lodestar/types": "^1.30.0",
     "@near-js/accounts": "^2.0.1",
     "@near-js/keystores": "^2.0.1",
     "@types/node": "^22.15.21",
@@ -28,7 +31,6 @@
   "dependencies": {
     "@chainsafe/ssz": "^1.2.0",
     "@lodestar/params": "^1.30.0",
-    "@lodestar/types": "^1.30.0",
     "@near-js/client": "^2.0.1",
     "@zorsh/zorsh": "^0.3.3",
     "near-api-js": "^6.0.1",
