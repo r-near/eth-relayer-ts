@@ -158,6 +158,14 @@ export const LightClientUpdateSchema = b.struct({
 })
 export type LightClientUpdate = b.infer<typeof LightClientUpdateSchema>
 
+export const LightClientStateSchema = b.struct({
+  finalized_beacon_header: ExtendedBeaconBlockHeaderSchema,
+  current_sync_committee: SyncCommitteeSchema,
+  next_sync_committee: SyncCommitteeSchema,
+})
+export type LightClientState = b.infer<typeof LightClientStateSchema>
+
+
 // ============================================================================
 // INITIALIZATION TYPES
 // ============================================================================
